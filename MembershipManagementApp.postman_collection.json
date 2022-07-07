@@ -1,0 +1,2086 @@
+{
+	"info": {
+		"_postman_id": "e17927ba-5538-4edc-9dd9-7dec05c55210",
+		"name": "Membership Management App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20553120"
+	},
+	"item": [
+		{
+			"name": "country",
+			"item": [
+				{
+					"name": "Get all countries",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"countries_length\", jsonData.length);\r",
+									"\r",
+									"pm.test(\"Initial countries length is 251\", function () {\r",
+									"    pm.expect(jsonData.length).to.eql(parseInt(pm.collectionVariables.get(\"init_countries_length\")));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"First country code is 'AD'\", function () {\r",
+									"    pm.expect(jsonData[0].code).to.eql(pm.collectionVariables.get(\"first_country_code\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/countries",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"countries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find country by code_hu",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.code).to.eql('HU');\r",
+									"    pm.expect(jsonData.nameOfCountryHun).to.eql('Magyarország');\r",
+									"    pm.expect(jsonData.nameOfCountryEng).to.eql('Hungary');\r",
+									"});\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"country_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/country/hu",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country",
+								"hu"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find country by code_ES",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.code).to.eql('ES');\r",
+									"    pm.expect(jsonData.nameOfCountryHun).to.eql('Spanyolország');\r",
+									"    pm.expect(jsonData.nameOfCountryEng).to.eql('Spain');\r",
+									"});\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"country_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/country/ES",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country",
+								"ES"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find country by name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.code).to.eql('HU');\r",
+									"    pm.expect(jsonData.nameOfCountryHun).to.eql('Magyarország');\r",
+									"    pm.expect(jsonData.nameOfCountryEng).to.eql('Hungary');\r",
+									"});\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"country_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/country?name_hu=Magyarország",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country"
+							],
+							"query": [
+								{
+									"key": "name_hu",
+									"value": "Magyarország"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save country",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"new_country_code\", jsonData.code);\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"country_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"YY\",\r\n    \"nameOfCountryHun\": \"{{$randomCountry}}\",\r\n    \"nameOfCountryEng\": \"{{$randomCountry}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/country",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update country by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"country_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nameOfCountryHun\": \"{{$randomCountry}}\",\r\n    \"nameOfCountryEng\": \"{{$randomCountry}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/country/{{new_country_code}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country",
+								"{{new_country_code}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all countries 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Country length after post is increased\", function () {\r",
+									"    var originalCountryLength = pm.collectionVariables.get(\"countries_length\");\r",
+									"    pm.expect(jsonData.length).to.eql(originalCountryLength + 1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"First country code is 'AD'\", function () {\r",
+									"    pm.expect(jsonData[0].code).to.eql(pm.collectionVariables.get(\"first_country_code\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/countries",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"countries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete country by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/country/{{new_country_code}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country",
+								"{{new_country_code}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all countries 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Country length after delete is decreased\", function () {\r",
+									"    var originalCountryLength = pm.collectionVariables.get(\"countries_length\");\r",
+									"    pm.expect(jsonData.length).to.eql(originalCountryLength);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"First country code is 'AD'\", function () {\r",
+									"    pm.expect(jsonData[0].code).to.eql(pm.collectionVariables.get(\"first_country_code\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/countries",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"countries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save country with invalid code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"errormsg_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"yy\",\r\n    \"nameOfCountryHun\": \"{{$randomCountry}}\",\r\n    \"nameOfCountryEng\": \"{{$randomCountry}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/country",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update country with invalid name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"errormsg_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nameOfCountryHun\": \"magyarország\",\r\n    \"nameOfCountryEng\": \"Hungary\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/country/hu",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country",
+								"hu"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "school",
+			"item": [
+				{
+					"name": "Get all schools",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"schools_length\", jsonData.length);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/schools",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"schools"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find school by code_ba",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.id).to.eql('BA');\r",
+									"    pm.expect(jsonData.groupId).to.eql(6);\r",
+									"    pm.expect(jsonData.name).to.eql('Balatonfüredi Széchenyi István Gimnázium');\r",
+									"    pm.expect(jsonData.address.country.nameOfCountryHun).to.eql('Magyarország');\r",
+									"    pm.expect(jsonData.address.city).to.eql('Balatonfüred');\r",
+									"    pm.expect(jsonData.address.postalAddress).to.eql('HU 8230 Balatonfüred, Jókai utca 15.');\r",
+									"    pm.expect(jsonData.isActive).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"school_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/school/ba",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"school",
+								"ba"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find school by code_PS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.id).to.eql('PS');\r",
+									"    pm.expect(jsonData.groupId).to.eql(1);\r",
+									"    pm.expect(jsonData.name).to.eql('Petőfi Sándor Gimnázium');\r",
+									"    pm.expect(jsonData.address.country.nameOfCountryHun).to.eql('Magyarország');\r",
+									"    pm.expect(jsonData.address.city).to.eql('Várpalota');\r",
+									"    pm.expect(jsonData.address.stateOrProvince).to.eql('Veszprém megye');\r",
+									"    pm.expect(jsonData.address.postalAddress).to.eql('HU 8103 Várpalota, Teréz krt. 17.');\r",
+									"    pm.expect(jsonData.isActive).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"school_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/school/PS",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"school",
+								"PS"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save school",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"new_school_id\", jsonData.id);\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.id).to.eql('EF');\r",
+									"    pm.expect(jsonData.groupId).to.eql(9);\r",
+									"    pm.expect(jsonData.name).to.eql('Erkel Ferenc Gimnázium');\r",
+									"    pm.expect(jsonData.address.country.nameOfCountryHun).to.eql('Magyarország');\r",
+									"    pm.expect(jsonData.address.city).to.eql('Budapest');\r",
+									"    pm.expect(jsonData.address.stateOrProvince).to.eql('Budapest');\r",
+									"    pm.expect(jsonData.address.postalAddress).to.eql('HU 1111 Budapest, Széchenyi utca 10.');\r",
+									"    pm.expect(jsonData.isActive).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"school_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"EF\",\r\n    \"groupId\": 9,\r\n    \"name\": \"Erkel Ferenc Gimnázium\",\r\n    \"address\": {\r\n        \"country\": {\r\n            \"code\": \"HU\"\r\n        },\r\n        \"zipCode\": \"1111\",\r\n        \"city\": \"Budapest\",\r\n        \"stateOrProvince\": \"Budapest\",\r\n        \"street\": \"Széchenyi utca 10.\"\r\n    },\r\n    \"isActive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/school",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"school"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update school by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.id).to.eql(pm.collectionVariables.get(\"new_school_id\"));\r",
+									"    pm.expect(jsonData.groupId).to.eql(8);\r",
+									"    pm.expect(jsonData.name).to.eql('Erkel Ferenc Gimnázium');\r",
+									"    pm.expect(jsonData.address.country.nameOfCountryHun).to.eql('Magyarország');\r",
+									"    pm.expect(jsonData.address.city).to.eql('Budapest');\r",
+									"    pm.expect(jsonData.address.stateOrProvince).to.eql(null);\r",
+									"    pm.expect(jsonData.address.postalAddress).to.eql('HU 2222 Budapest, Kossuth utca 12/A.');\r",
+									"    pm.expect(jsonData.isActive).to.eql(false);\r",
+									"});\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"school_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"groupId\": 8,\r\n    \"name\": \"Erkel Ferenc Gimnázium\",\r\n    \"address\": {\r\n        \"country\": {\r\n            \"code\": \"HU\"\r\n        },\r\n        \"zipCode\": \"2222\",\r\n        \"city\": \"Budapest\",\r\n        \"stateOrProvince\": null,\r\n        \"street\": \"Kossuth utca 12/A.\"\r\n    },\r\n    \"isActive\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/school/{{new_school_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"school",
+								"{{new_school_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all schools 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"School length after post is increased\", function () {\r",
+									"    var originalSchoolLength = pm.collectionVariables.get(\"schools_length\");\r",
+									"    pm.expect(jsonData.length).to.eql(originalSchoolLength + 1);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/schools",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"schools"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete country by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/school/{{new_school_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"school",
+								"{{new_school_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all schools 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"School length after delete is decreased\", function () {\r",
+									"    var originalSchoolLength = pm.collectionVariables.get(\"schools_length\");\r",
+									"    pm.expect(jsonData.length).to.eql(originalSchoolLength);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/schools",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"schools"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save school with invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"errormsg_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"ef\",\r\n    \"groupId\": 9,\r\n    \"name\": \"Erkel Ferenc Gimnázium\",\r\n    \"address\": {\r\n        \"country\": {\r\n            \"code\": \"HU\"\r\n        },\r\n        \"zipCode\": \"1111\",\r\n        \"city\": \"Budapest\",\r\n        \"stateOrProvince\": \"Budapest\",\r\n        \"street\": \"Széchenyi utca 10.\"\r\n    },\r\n    \"isActive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/school",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"school"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save school with invalid group id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"errormsg_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"EF\",\r\n    \"groupId\": 10,\r\n    \"name\": \"Erkel Ferenc Gimnázium\",\r\n    \"address\": {\r\n        \"country\": {\r\n            \"code\": \"HU\"\r\n        },\r\n        \"zipCode\": \"1111\",\r\n        \"city\": \"Budapest\",\r\n        \"stateOrProvince\": \"Budapest\",\r\n        \"street\": \"Széchenyi utca 10.\"\r\n    },\r\n    \"isActive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/school",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"school"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update school with invalid name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"errormsg_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"groupId\": 1,\r\n    \"name\": null,\r\n    \"address\": {\r\n        \"country\": {\r\n            \"code\": \"HU\"\r\n        },\r\n        \"zipCode\": \"8103\",\r\n        \"city\": \"Várpalota\",\r\n        \"stateOrProvince\": \"Veszprém megye\",\r\n        \"street\": \"Teréz krt. 17.\",\r\n        \"postalAddress\": \"HU 8103 Várpalota, Teréz krt. 17.\"\r\n    },\r\n    \"isActive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/school/ps",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"school",
+								"ps"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "class",
+			"item": [
+				{
+					"name": "Get all classes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"classes_length\", jsonData.length);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/classes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"classes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find class by id_PS2008B",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.id).to.eql('PS2008B');\r",
+									"    pm.expect(jsonData.yearOfGraduation).to.eql(2008);\r",
+									"    pm.expect(jsonData.markOfClass).to.eql('B');\r",
+									"    pm.expect(jsonData.formTeacher).to.eql('Tóth Bertalan');\r",
+									"    pm.expect(jsonData.school.id).to.eql('PS');\r",
+									"    pm.expect(jsonData.school.groupId).to.eql(1);\r",
+									"    pm.expect(jsonData.school.name).to.eql('Petőfi Sándor Gimnázium');\r",
+									"    pm.expect(jsonData.school.isActive).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"class_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/class/PS2008B",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"class",
+								"PS2008B"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find class by id_ja1963a",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.id).to.eql('JA1963A');\r",
+									"    pm.expect(jsonData.yearOfGraduation).to.eql(1963);\r",
+									"    pm.expect(jsonData.markOfClass).to.eql('A');\r",
+									"    pm.expect(jsonData.formTeacher).to.eql('Szántó Benjámin');\r",
+									"    pm.expect(jsonData.school.id).to.eql('JA');\r",
+									"    pm.expect(jsonData.school.groupId).to.eql(2);\r",
+									"    pm.expect(jsonData.school.name).to.eql('József Attila Gimnázium');\r",
+									"    pm.expect(jsonData.school.isActive).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"class_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/class/ja1963a",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"class",
+								"ja1963a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save class",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"new_class_id\", jsonData.id);\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.id).to.eql('DF2022C');\r",
+									"    pm.expect(jsonData.yearOfGraduation).to.eql(2022);\r",
+									"    pm.expect(jsonData.markOfClass).to.eql('C');\r",
+									"    pm.expect(jsonData.formTeacher).to.eql('Kiss Máté');\r",
+									"    pm.expect(jsonData.school.id).to.eql('DF');\r",
+									"    pm.expect(jsonData.school.groupId).to.eql(7);\r",
+									"    pm.expect(jsonData.school.name).to.eql('Deák Ferenc Gimnázium');\r",
+									"    pm.expect(jsonData.school.isActive).to.eql(false);\r",
+									"});\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"class_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"DF2022C\",\r\n    \"yearOfGraduation\": 2022,\r\n    \"markOfClass\": \"C\",\r\n    \"formTeacher\": \"Kiss Máté\",\r\n    \"school\": {\r\n        \"id\": \"DF\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/class",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"class"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update class by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.id).to.eql('DF2022C');\r",
+									"    pm.expect(jsonData.yearOfGraduation).to.eql(2022);\r",
+									"    pm.expect(jsonData.markOfClass).to.eql('C');\r",
+									"    pm.expect(jsonData.formTeacher).to.eql('dr. Nagy Miklós');\r",
+									"    pm.expect(jsonData.school.id).to.eql('DF');\r",
+									"    pm.expect(jsonData.school.groupId).to.eql(7);\r",
+									"    pm.expect(jsonData.school.name).to.eql('Deák Ferenc Gimnázium');\r",
+									"    pm.expect(jsonData.school.isActive).to.eql(false);\r",
+									"});\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"class_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"yearOfGraduation\": 2022,\r\n    \"markOfClass\": \"C\",\r\n    \"formTeacher\": \"dr. Nagy Miklós\",\r\n    \"school\": {\r\n        \"id\": \"DF\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/class/{{new_class_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"class",
+								"{{new_class_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all classes 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Class length after post is increased\", function () {\r",
+									"    var originalClassLength = pm.collectionVariables.get(\"classes_length\");\r",
+									"    pm.expect(jsonData.length).to.eql(originalClassLength + 1);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/classes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"classes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete class by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/class/{{new_class_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"class",
+								"{{new_class_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all classes 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Class length after delete is decreased\", function () {\r",
+									"    var originalClassLength = pm.collectionVariables.get(\"classes_length\");\r",
+									"    pm.expect(jsonData.length).to.eql(originalClassLength);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/classes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"classes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save class with invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"errormsg_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"df2022C\",\r\n    \"yearOfGraduation\": 2022,\r\n    \"markOfClass\": \"C\",\r\n    \"formTeacher\": \"Kiss Máté\",\r\n    \"school\": {\r\n        \"id\": \"DF\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/class",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"class"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save class with invalid year",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"errormsg_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"DF2035C\",\r\n    \"yearOfGraduation\": 2035,\r\n    \"markOfClass\": \"C\",\r\n    \"formTeacher\": \"Kiss Máté\",\r\n    \"school\": {\r\n        \"id\": \"DF\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/class",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"class"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update class with invalid mark of class",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"errormsg_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"PS2008B\",\r\n    \"yearOfGraduation\": 2008,\r\n    \"markOfClass\": \"1\",\r\n    \"formTeacher\": \"Tóth Bertalan\",\r\n    \"school\": {\r\n        \"id\": \"PS\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/class/PS2008B",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"class",
+								"PS2008B"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "member",
+			"item": [
+				{
+					"name": "Get all members",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"members_length\", jsonData.length);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/members",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find member by id_1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.memberId).to.eql(1);\r",
+									"    pm.expect(jsonData.name.prefixOfName).to.eql('Dr.');\r",
+									"    pm.expect(jsonData.name.lastName).to.eql('Végh');\r",
+									"    pm.expect(jsonData.name.firstName).to.eql('Ármin');\r",
+									"    pm.expect(jsonData.name.suffixOfName).to.eql('PhD');\r",
+									"    pm.expect(jsonData.class.id).to.eql('PS2008B');\r",
+									"    pm.expect(jsonData.class.school.id).to.eql('PS');\r",
+									"    pm.expect(jsonData.class.school.name).to.eql('Petőfi Sándor Gimnázium');\r",
+									"    pm.expect(jsonData.placeOfBirth).to.eql('Budapest');\r",
+									"    pm.expect(jsonData.dateOfBirth).to.eql('1986-08-06');\r",
+									"    pm.expect(jsonData.address.postalAddress).to.eql('HU 7930 Patrik, Kristóf árok 499 53. ajtó');\r",
+									"    pm.expect(jsonData.email).to.eql('gabor.boros@24hinbox.com');\r",
+									"    pm.expect(jsonData.phoneNumber).to.eql('+36760398341');\r",
+									"    pm.expect(jsonData.status).to.eql('ACTIVE');\r",
+									"    pm.expect(jsonData.type).to.eql('REGULAR');\r",
+									"    pm.expect(jsonData.comment).to.eql(null);\r",
+									"    pm.expect(jsonData.isAllowNewsletter).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"member_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/member/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"member",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save member",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"new_member_id\", jsonData.memberId);\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.memberId).to.eql(pm.collectionVariables.get(\"new_member_id\"));\r",
+									"    pm.expect(jsonData.name.prefixOfName).to.eql(null);\r",
+									"    pm.expect(jsonData.name.lastName).to.eql('Novák');\r",
+									"    pm.expect(jsonData.name.firstName).to.eql('Katinka');\r",
+									"    pm.expect(jsonData.name.suffixOfName).to.eql(null);\r",
+									"    pm.expect(jsonData.class.id).to.eql('BA2012A');\r",
+									"    pm.expect(jsonData.class.school.id).to.eql('BA');\r",
+									"    pm.expect(jsonData.class.school.name).to.eql('Balatonfüredi Széchenyi István Gimnázium');\r",
+									"    pm.expect(jsonData.placeOfBirth).to.eql('Szeged');\r",
+									"    pm.expect(jsonData.dateOfBirth).to.eql('1993-01-06');\r",
+									"    pm.expect(jsonData.address.postalAddress).to.eql('DE 91367 Berlin, Untere Sonnenleite 3');\r",
+									"    pm.expect(jsonData.email).to.eql('katinka.novak@example.com');\r",
+									"    pm.expect(jsonData.phoneNumber).to.eql('+36301234567');\r",
+									"    pm.expect(jsonData.status).to.eql('ACTIVE');\r",
+									"    pm.expect(jsonData.type).to.eql('REGULAR');\r",
+									"    pm.expect(jsonData.comment).to.eql(null);\r",
+									"    pm.expect(jsonData.isAllowNewsletter).to.eql(false);\r",
+									"});\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"member_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": {\r\n    \"prefixOfName\": null,\r\n    \"lastName\": \"Novák\",\r\n    \"firstName\": \"Katinka\",\r\n    \"suffixOfName\": null,\r\n    \"nickName\": null\r\n  },\r\n  \"class\": {\r\n    \"id\": \"BA2012A\"\r\n  },\r\n  \"placeOfBirth\": \"Szeged\",\r\n  \"dateOfBirth\": \"1993-01-06\",\r\n  \"address\": {\r\n    \"country\": {\r\n      \"code\": \"DE\"\r\n    },\r\n    \"zipCode\": \"91367\",\r\n    \"city\": \"Berlin\",\r\n    \"stateOrProvince\": null,\r\n    \"street\": \"Untere Sonnenleite 3\"\r\n  },\r\n  \"email\": \"katinka.novak@example.com\",\r\n  \"phoneNumber\": \"+36301234567\",\r\n  \"status\": \"ACTIVE\",\r\n  \"type\": \"REGULAR\",\r\n  \"comment\": null,\r\n  \"isAllowNewsletter\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/member",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"member"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update member by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.memberId).to.eql(pm.collectionVariables.get(\"new_member_id\"));\r",
+									"    pm.expect(jsonData.name.prefixOfName).to.eql(null);\r",
+									"    pm.expect(jsonData.name.lastName).to.eql('Novák');\r",
+									"    pm.expect(jsonData.name.firstName).to.eql('Katinka');\r",
+									"    pm.expect(jsonData.name.suffixOfName).to.eql(null);\r",
+									"    pm.expect(jsonData.class.id).to.eql('JA2016B');\r",
+									"    pm.expect(jsonData.class.school.id).to.eql('JA');\r",
+									"    pm.expect(jsonData.class.school.name).to.eql('József Attila Gimnázium');\r",
+									"    pm.expect(jsonData.placeOfBirth).to.eql('Szeged');\r",
+									"    pm.expect(jsonData.dateOfBirth).to.eql('1993-01-06');\r",
+									"    pm.expect(jsonData.address.postalAddress).to.eql('');\r",
+									"    pm.expect(jsonData.email).to.eql('katinkan@example.com');\r",
+									"    pm.expect(jsonData.phoneNumber).to.eql('+36307654321');\r",
+									"    pm.expect(jsonData.status).to.eql('INACTIVE');\r",
+									"    pm.expect(jsonData.type).to.eql('REGULAR');\r",
+									"    pm.expect(jsonData.comment).to.eql('no comment');\r",
+									"    pm.expect(jsonData.isAllowNewsletter).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"member_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": {\r\n    \"prefixOfName\": null,\r\n    \"lastName\": \"Novák\",\r\n    \"firstName\": \"Katinka\",\r\n    \"suffixOfName\": null,\r\n    \"nickName\": null\r\n  },\r\n  \"class\": {\r\n    \"id\": \"JA2016B\"\r\n  },\r\n  \"placeOfBirth\": \"Szeged\",\r\n  \"dateOfBirth\": \"1993-01-06\",\r\n  \"address\": {\r\n    \"country\": {\r\n      \"code\": \"DE\"\r\n    },\r\n    \"zipCode\": \"91367\",\r\n    \"city\": \"Berlin\",\r\n    \"stateOrProvince\": null,\r\n    \"street\": null\r\n  },\r\n  \"email\": \"katinkan@example.com\",\r\n  \"phoneNumber\": \"+36307654321\",\r\n  \"status\": \"INACTIVE\",\r\n  \"type\": \"REGULAR\",\r\n  \"comment\": \"no comment\",\r\n  \"isAllowNewsletter\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/member/{{new_member_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"member",
+								"{{new_member_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all members 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Member length after post is increased\", function () {\r",
+									"    var originalMemberLength = pm.collectionVariables.get(\"members_length\");\r",
+									"    pm.expect(jsonData.length).to.eql(originalMemberLength + 1);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/members",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete member by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/member/{{new_member_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"member",
+								"{{new_member_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all members 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Member length after delete is decreased\", function () {\r",
+									"    var originalMemberLength = pm.collectionVariables.get(\"members_length\");\r",
+									"    pm.expect(jsonData.length).to.eql(originalMemberLength);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/members",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save member with null name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"errormsg_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": {\r\n    \"prefixOfName\": null,\r\n    \"lastName\": null,\r\n    \"firstName\": null,\r\n    \"suffixOfName\": null,\r\n    \"nickName\": null\r\n  },\r\n  \"class\": {\r\n    \"id\": \"BA2012A\"\r\n  },\r\n  \"placeOfBirth\": \"Szeged\",\r\n  \"dateOfBirth\": \"1993-01-06\",\r\n  \"address\": {\r\n    \"country\": {\r\n      \"code\": \"DE\"\r\n    },\r\n    \"zipCode\": \"91367\",\r\n    \"city\": \"Berlin\",\r\n    \"stateOrProvince\": null,\r\n    \"street\": \"Untere Sonnenleite 3\"\r\n  },\r\n  \"email\": \"katinka.novak@example.com\",\r\n  \"phoneNumber\": \"+36301234567\",\r\n  \"status\": \"ACTIVE\",\r\n  \"type\": \"REGULAR\",\r\n  \"comment\": null,\r\n  \"isAllowNewsletter\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/member",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"member"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save member with invalid school id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"errormsg_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": {\r\n    \"prefixOfName\": null,\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"suffixOfName\": null,\r\n    \"nickName\": null\r\n  },\r\n  \"class\": {\r\n    \"id\": \"ba2012A\"\r\n  },\r\n  \"placeOfBirth\": \"Szeged\",\r\n  \"dateOfBirth\": \"1993-01-06\",\r\n  \"address\": {\r\n    \"country\": {\r\n      \"code\": \"DE\"\r\n    },\r\n    \"zipCode\": \"91367\",\r\n    \"city\": \"Berlin\",\r\n    \"stateOrProvince\": null,\r\n    \"street\": \"Untere Sonnenleite 3\"\r\n  },\r\n  \"email\": \"katinka.novak@example.com\",\r\n  \"phoneNumber\": \"+36301234567\",\r\n  \"status\": \"ACTIVE\",\r\n  \"type\": \"REGULAR\",\r\n  \"comment\": null,\r\n  \"isAllowNewsletter\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/member",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"member"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update member with invalid country code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var schema = JSON.parse(pm.collectionVariables.get(\"errormsg_json_schema\"));\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": {\r\n    \"prefixOfName\": null,\r\n    \"lastName\": \"Novák\",\r\n    \"firstName\": \"Katinka\",\r\n    \"suffixOfName\": null,\r\n    \"nickName\": null\r\n  },\r\n  \"class\": {\r\n    \"id\": \"BA2012A\"\r\n  },\r\n  \"placeOfBirth\": \"Szeged\",\r\n  \"dateOfBirth\": \"1993-01-06\",\r\n  \"address\": {\r\n    \"country\": {\r\n      \"code\": \"de\"\r\n    },\r\n    \"zipCode\": \"91367\",\r\n    \"city\": \"Berlin\",\r\n    \"stateOrProvince\": null,\r\n    \"street\": \"Untere Sonnenleite 3\"\r\n  },\r\n  \"email\": \"katinka.novak@example.com\",\r\n  \"phoneNumber\": \"+36301234567\",\r\n  \"status\": \"ACTIVE\",\r\n  \"type\": \"REGULAR\",\r\n  \"comment\": null,\r\n  \"isAllowNewsletter\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/member/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"member",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/api/v1"
+		},
+		{
+			"key": "errormsg_json_schema",
+			"value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"status\":{\"type\":\"integer\"},\"violations\":{\"type\":\"array\",\"items\":[{\"type\":\"object\",\"properties\":{\"field\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"}},\"required\":[\"field\",\"message\"]}]},\"title\":{\"type\":\"string\"}},\"required\":[\"type\",\"status\",\"violations\",\"title\"]}",
+			"type": "string"
+		},
+		{
+			"key": "country_json_schema",
+			"value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"string\"},\"nameOfCountryHun\":{\"type\":\"string\"},\"nameOfCountryEng\":{\"type\":\"string\"}},\"required\":[\"code\",\"nameOfCountryHun\",\"nameOfCountryEng\"]}",
+			"type": "string"
+		},
+		{
+			"key": "first_country_code",
+			"value": "AD",
+			"type": "string"
+		},
+		{
+			"key": "init_countries_length",
+			"value": "251",
+			"type": "string"
+		},
+		{
+			"key": "countries_length",
+			"value": ""
+		},
+		{
+			"key": "new_country_code",
+			"value": ""
+		},
+		{
+			"key": "schools_length",
+			"value": ""
+		},
+		{
+			"key": "school_json_schema",
+			"value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"groupId\":{\"type\":\"integer\"},\"name\":{\"type\":\"string\"},\"address\":{\"type\":[\"object\",\"null\"],\"properties\":{\"country\":{\"type\":[\"object\",\"null\"],\"properties\":{\"code\":{\"type\":\"string\"},\"nameOfCountryHun\":{\"type\":\"string\"}},\"required\":[\"code\",\"nameOfCountryHun\"]},\"zipCode\":{\"type\":[\"string\",\"null\"]},\"city\":{\"type\":[\"string\",\"null\"]},\"stateOrProvince\":{\"type\":[\"string\",\"null\"]},\"street\":{\"type\":[\"string\",\"null\"]},\"postalAddress\":{\"type\":\"string\"}},\"required\":[\"country\",\"zipCode\",\"city\",\"stateOrProvince\",\"street\",\"postalAddress\"]},\"isActive\":{\"type\":\"boolean\"},\"classes\":{\"type\":[\"array\",\"null\"]}},\"required\":[\"id\",\"groupId\",\"name\",\"address\",\"isActive\",\"classes\"]}",
+			"type": "string"
+		},
+		{
+			"key": "new_school_id",
+			"value": ""
+		},
+		{
+			"key": "class_json_schema",
+			"value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"yearOfGraduation\":{\"type\":\"integer\"},\"markOfClass\":{\"type\":\"string\"},\"formTeacher\":{\"type\":[\"string\",\"null\"]},\"school\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"groupId\":{\"type\":\"integer\"},\"name\":{\"type\":\"string\"},\"isActive\":{\"type\":\"boolean\"}},\"required\":[\"id\",\"groupId\",\"name\",\"isActive\"]}},\"required\":[\"id\",\"yearOfGraduation\",\"markOfClass\",\"formTeacher\",\"school\"]}",
+			"type": "string"
+		},
+		{
+			"key": "classes_length",
+			"value": ""
+		},
+		{
+			"key": "new_class_id",
+			"value": ""
+		},
+		{
+			"key": "member_json_schema",
+			"value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"memberId\":{\"type\":\"integer\"},\"name\":{\"type\":\"object\",\"properties\":{\"prefixOfName\":{\"type\":[\"string\",\"null\"]},\"lastName\":{\"type\":\"string\"},\"firstName\":{\"type\":\"string\"},\"suffixOfName\":{\"type\":[\"string\",\"null\"]},\"nickName\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"prefixOfName\",\"lastName\",\"firstName\",\"suffixOfName\",\"nickName\"]},\"class\":{\"type\":[\"object\",\"null\"],\"properties\":{\"id\":{\"type\":\"string\"},\"yearOfGraduation\":{\"type\":\"integer\"},\"markOfClass\":{\"type\":\"string\"},\"formTeacher\":{\"type\":\"string\"},\"school\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"groupId\":{\"type\":\"integer\"},\"name\":{\"type\":\"string\"},\"isActive\":{\"type\":\"boolean\"}},\"required\":[\"id\",\"groupId\",\"name\",\"isActive\"]}},\"required\":[\"id\",\"yearOfGraduation\",\"markOfClass\",\"formTeacher\",\"school\"]},\"placeOfBirth\":{\"type\":[\"string\",\"null\"]},\"dateOfBirth\":{\"type\":[\"string\",\"null\"]},\"address\":{\"type\":[\"object\",\"null\"],\"properties\":{\"country\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"string\"},\"nameOfCountryHun\":{\"type\":\"string\"}},\"required\":[\"code\",\"nameOfCountryHun\"]},\"zipCode\":{\"type\":[\"string\",\"null\"]},\"city\":{\"type\":[\"string\",\"null\"]},\"stateOrProvince\":{\"type\":[\"string\",\"null\"]},\"street\":{\"type\":[\"string\",\"null\"]},\"postalAddress\":{\"type\":\"string\"}},\"required\":[\"country\",\"zipCode\",\"city\",\"stateOrProvince\",\"street\",\"postalAddress\"]},\"email\":{\"type\":[\"string\",\"null\"]},\"phoneNumber\":{\"type\":[\"string\",\"null\"]},\"status\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"},\"comment\":{\"type\":[\"string\",\"null\"]},\"createdAt\":{\"type\":\"string\"},\"updatedAt\":{\"type\":\"string\"},\"isAllowNewsletter\":{\"type\":[\"boolean\",\"null\"]}},\"required\":[\"memberId\",\"name\",\"class\",\"placeOfBirth\",\"dateOfBirth\",\"address\",\"email\",\"phoneNumber\",\"status\",\"type\",\"comment\",\"createdAt\",\"updatedAt\",\"isAllowNewsletter\"]}",
+			"type": "string"
+		},
+		{
+			"key": "members_length",
+			"value": ""
+		},
+		{
+			"key": "new_member_id",
+			"value": ""
+		}
+	]
+}
