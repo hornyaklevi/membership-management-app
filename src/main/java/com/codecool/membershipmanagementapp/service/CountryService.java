@@ -4,6 +4,9 @@
 
 package com.codecool.membershipmanagementapp.service;
 
+import com.codecool.membershipmanagementapp.controller.exception.CountryAlreadyTakenException;
+import com.codecool.membershipmanagementapp.controller.exception.CountryByCodeNotFoundException;
+import com.codecool.membershipmanagementapp.controller.exception.CountryByNameNotFoundException;
 import com.codecool.membershipmanagementapp.model.Country;
 import com.codecool.membershipmanagementapp.repository.CountryRepository;
 import com.codecool.membershipmanagementapp.repository.command.CreateCountryCommand;
@@ -34,7 +37,7 @@ public class CountryService {
     public CountryDto findByCode(String code) {
         return modelMapper.map(
                 countryRepository.findById(code).orElseThrow(
-                        () -> new IllegalArgumentException(String.format("Country with code %s not found.", code))),
+                        () -> new CountryByCodeNotFoundException(code)),
                 CountryDto.class);
     }
 
@@ -44,15 +47,13 @@ public class CountryService {
                         .stream()
                         .findFirst()
                         .orElseThrow(
-                                () -> new IllegalArgumentException(String.format("Country with name %s not found.", name))),
+                                () -> new CountryByNameNotFoundException(name)),
                 CountryDto.class);
     }
 
     public CountryDto save(CreateCountryCommand command) {
-        boolean countryExists = countryRepository.findById(command.getCode()).isPresent();
-
-        if (countryExists) {
-            throw new IllegalStateException(String.format("Country with code %s already taken.", command.getCode()));
+        if (countryRepository.existsById(command.getCode())) {
+            throw new CountryAlreadyTakenException(command.getCode());
         }
 
         Country country = modelMapper.map(command, Country.class);
@@ -60,12 +61,16 @@ public class CountryService {
     }
 
     public void deleteById(String code) {
+        if (!countryRepository.existsById(code)) {
+            throw new CountryByCodeNotFoundException(code);
+        }
+
         countryRepository.deleteById(code);
     }
 
     public CountryDto update(String code, UpdateCountryCommand command) {
         Country countryToUpdate = countryRepository.findById(code)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Country with name %s not found.", code)));
+                .orElseThrow(() -> new CountryByCodeNotFoundException(code));
 
         countryToUpdate.setNameOfCountryHun(command.getNameOfCountryHun());
         countryToUpdate.setNameOfCountryEng(command.getNameOfCountryEng());
