@@ -4,6 +4,7 @@
 
 package com.codecool.membershipmanagementapp.service;
 
+import com.codecool.membershipmanagementapp.model.school.School;
 import com.codecool.membershipmanagementapp.model.school.SchoolClass;
 import com.codecool.membershipmanagementapp.repository.SchoolClassRepository;
 import com.codecool.membershipmanagementapp.repository.command.CreateSchoolClassCommand;
@@ -14,6 +15,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -23,6 +26,7 @@ public class SchoolClassService {
 
     private final SchoolClassRepository schoolClassRepository;
     private final ModelMapper modelMapper;
+    private final EntityManagerFactory entityManagerFactory;
 
     public List<SchoolClassDto> findAll() {
         Type targetListType = new TypeToken<List<SchoolClassDto>>() {
@@ -53,16 +57,24 @@ public class SchoolClassService {
     }
 
     public SchoolClassDto update(String id, UpdateSchoolClassCommand command) {
-        SchoolClass schoolClassToUpdate = schoolClassRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Class with id %s not found.", id)));
 
-        SchoolClass schoolClassInput = modelMapper.map(command, SchoolClass.class);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
 
-        schoolClassToUpdate.setYearOfGraduation(schoolClassInput.getYearOfGraduation());
-        schoolClassToUpdate.setMarkOfClass(schoolClassInput.getMarkOfClass());
-        schoolClassToUpdate.setFormTeacher(schoolClassInput.getFormTeacher());
-        schoolClassToUpdate.setSchool(schoolClassInput.getSchool());
+        SchoolClass schoolClassToUpdate = entityManager.find(SchoolClass.class, id);
+        if (schoolClassToUpdate == null) {
+            throw new IllegalArgumentException(String.format("School class with id %s not found.", id));
+        }
 
-        return modelMapper.map(schoolClassRepository.save(schoolClassToUpdate), SchoolClassDto.class);
+        schoolClassToUpdate.setYearOfGraduation(command.getYearOfGraduation());
+        schoolClassToUpdate.setMarkOfClass(command.getMarkOfClass());
+        schoolClassToUpdate.setFormTeacher(command.getFormTeacher());
+        schoolClassToUpdate.setSchool(modelMapper.map(command.getSchool(), School.class));
+
+        entityManager.merge(schoolClassToUpdate);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
+        return findById(id);
     }
 }
