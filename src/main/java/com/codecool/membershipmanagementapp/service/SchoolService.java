@@ -4,6 +4,7 @@
 
 package com.codecool.membershipmanagementapp.service;
 
+import com.codecool.membershipmanagementapp.model.Address;
 import com.codecool.membershipmanagementapp.model.school.School;
 import com.codecool.membershipmanagementapp.repository.SchoolRepository;
 import com.codecool.membershipmanagementapp.repository.command.CreateSchoolCommand;
@@ -15,6 +16,8 @@ import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -24,6 +27,7 @@ public class SchoolService {
 
     private final SchoolRepository schoolRepository;
     private final ModelMapper modelMapper;
+    private final EntityManagerFactory entityManagerFactory;
 
     public List<SchoolDto> findAll() {
         Type targetListType = new TypeToken<List<SchoolDto>>() {
@@ -54,16 +58,24 @@ public class SchoolService {
     }
 
     public SchoolDto update(String id, UpdateSchoolCommand command) {
-        School schoolToUpdate = schoolRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("School with id %s not found.", id)));
 
-        School schoolInput = modelMapper.map(command, School.class);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
 
-        schoolToUpdate.setGroupId(schoolInput.getGroupId());
-        schoolToUpdate.setName(schoolInput.getName());
-        schoolToUpdate.setAddress(schoolInput.getAddress());
-        schoolToUpdate.setIsActive(schoolInput.getIsActive());
+        School schoolToUpdate = entityManager.find(School.class, id);
+        if (schoolToUpdate == null) {
+            throw new IllegalArgumentException(String.format("School with id %s not found.", id));
+        }
 
-        return modelMapper.map(schoolRepository.save(schoolToUpdate), SchoolDto.class);
+        schoolToUpdate.setGroupId(command.getGroupId());
+        schoolToUpdate.setName(command.getName());
+        schoolToUpdate.setAddress(modelMapper.map(command.getAddress(), Address.class));
+        schoolToUpdate.setIsActive(command.getIsActive());
+
+        entityManager.merge(schoolToUpdate);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
+        return findById(id);
     }
 }
