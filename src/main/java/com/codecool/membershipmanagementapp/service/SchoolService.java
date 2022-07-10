@@ -4,6 +4,8 @@
 
 package com.codecool.membershipmanagementapp.service;
 
+import com.codecool.membershipmanagementapp.controller.exception.SchoolAlreadyTakenException;
+import com.codecool.membershipmanagementapp.controller.exception.SchoolByIdNotFoundException;
 import com.codecool.membershipmanagementapp.model.Address;
 import com.codecool.membershipmanagementapp.model.school.School;
 import com.codecool.membershipmanagementapp.repository.SchoolRepository;
@@ -38,15 +40,13 @@ public class SchoolService {
     public SchoolDto findById(String id) {
         return modelMapper.map(
                 schoolRepository.findById(id).orElseThrow(
-                        () -> new IllegalArgumentException(String.format("School with id %s not found.", id))),
+                        () -> new SchoolByIdNotFoundException(id)),
                 SchoolDto.class);
     }
 
     public SchoolDto save(CreateSchoolCommand command) {
-        boolean schoolExists = schoolRepository.findById(command.getId()).isPresent();
-
-        if (schoolExists) {
-            throw new IllegalStateException(String.format("School with id %s already taken.", command.getId()));
+        if (schoolRepository.existsById(command.getId())) {
+            throw new SchoolAlreadyTakenException(command.getId());
         }
 
         School school = modelMapper.map(command, School.class);
@@ -54,6 +54,10 @@ public class SchoolService {
     }
 
     public void deleteById(String id) {
+        if (!schoolRepository.existsById(id)) {
+            throw new SchoolByIdNotFoundException(id);
+        }
+
         schoolRepository.deleteById(id);
     }
 
@@ -64,7 +68,7 @@ public class SchoolService {
 
         School schoolToUpdate = entityManager.find(School.class, id);
         if (schoolToUpdate == null) {
-            throw new IllegalArgumentException(String.format("School with id %s not found.", id));
+            throw new SchoolByIdNotFoundException(id);
         }
 
         schoolToUpdate.setGroupId(command.getGroupId());
