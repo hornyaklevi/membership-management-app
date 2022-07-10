@@ -4,6 +4,7 @@
 
 package com.codecool.membershipmanagementapp.service;
 
+import com.codecool.membershipmanagementapp.controller.exception.MemberByIdNotFoundException;
 import com.codecool.membershipmanagementapp.model.Address;
 import com.codecool.membershipmanagementapp.model.member.Member;
 import com.codecool.membershipmanagementapp.model.member.PersonName;
@@ -39,7 +40,7 @@ public class MemberService {
     public MemberDto findById(Long id) {
         return modelMapper.map(
                 memberRepository.findById(id).orElseThrow(
-                        () -> new IllegalArgumentException(String.format("Member with id %d not found.", id))),
+                        () -> new MemberByIdNotFoundException(id)),
                 MemberDto.class);
     }
 
@@ -57,6 +58,10 @@ public class MemberService {
     }
 
     public void deleteById(Long id) {
+        if (!memberRepository.existsById(id)) {
+            throw new MemberByIdNotFoundException(id);
+        }
+
         memberRepository.deleteById(id);
     }
 
@@ -67,7 +72,7 @@ public class MemberService {
 
         Member memberToUpdate = entityManager.find(Member.class, id);
         if (memberToUpdate == null) {
-            throw new IllegalArgumentException(String.format("Member with id %d not found.", id));
+            throw new MemberByIdNotFoundException(id);
         }
 
         memberToUpdate.setMembershipStatus(command.getMembershipStatus());
