@@ -495,6 +495,224 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Country not found by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('countries/country-not-found');\r",
+									"    pm.expect(jsonData.title).to.eql('Not found');\r",
+									"    pm.expect(jsonData.status).to.eql(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/country/xyz",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country",
+								"xyz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Country not found by name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('countries/country-not-found');\r",
+									"    pm.expect(jsonData.title).to.eql('Not found');\r",
+									"    pm.expect(jsonData.status).to.eql(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/country/?name_hu=Tesztország",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country",
+								""
+							],
+							"query": [
+								{
+									"key": "name_hu",
+									"value": "Tesztország"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save country already exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('countries/country-already-taken');\r",
+									"    pm.expect(jsonData.title).to.eql('Already taken');\r",
+									"    pm.expect(jsonData.status).to.eql(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"HU\",\r\n    \"nameOfCountryHun\": \"{{$randomCountry}}\",\r\n    \"nameOfCountryEng\": \"{{$randomCountry}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/country",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update country not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('countries/country-not-found');\r",
+									"    pm.expect(jsonData.title).to.eql('Not found');\r",
+									"    pm.expect(jsonData.status).to.eql(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nameOfCountryHun\": \"Magyarország\",\r\n    \"nameOfCountryEng\": \"Hungary\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/country/xyz",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country",
+								"xyz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete country by id not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('countries/country-not-found');\r",
+									"    pm.expect(jsonData.title).to.eql('Not found');\r",
+									"    pm.expect(jsonData.status).to.eql(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/country/xyz",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country",
+								"xyz"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -995,6 +1213,179 @@
 							"path": [
 								"school",
 								"ps"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "School not found by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('schools/school-not-found');\r",
+									"    pm.expect(jsonData.title).to.eql('Not found');\r",
+									"    pm.expect(jsonData.status).to.eql(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/school/xyz",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"school",
+								"xyz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save school already exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('schools/school-already-taken');\r",
+									"    pm.expect(jsonData.title).to.eql('Already taken');\r",
+									"    pm.expect(jsonData.status).to.eql(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"PS\",\r\n    \"groupId\": 1,\r\n    \"name\": \"Petőfi Sándor Gimnázium\",\r\n    \"address\": {\r\n        \"country\": {\r\n            \"code\": \"HU\",\r\n            \"nameOfCountryHun\": \"Magyarország\"\r\n        },\r\n        \"zipCode\": \"8103\",\r\n        \"city\": \"Várpalota\",\r\n        \"stateOrProvince\": \"Veszprém megye\",\r\n        \"street\": \"Teréz krt. 17.\",\r\n        \"postalAddress\": \"HU 8103 Várpalota, Teréz krt. 17.\"\r\n    },\r\n    \"isActive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/school",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"school"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update school not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('schools/school-not-found');\r",
+									"    pm.expect(jsonData.title).to.eql('Not found');\r",
+									"    pm.expect(jsonData.status).to.eql(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"groupId\": 8,\r\n    \"name\": \"Erkel Ferenc Gimnázium\",\r\n    \"address\": {\r\n        \"country\": {\r\n            \"code\": \"HU\"\r\n        },\r\n        \"zipCode\": \"2222\",\r\n        \"city\": \"Budapest\",\r\n        \"stateOrProvince\": null,\r\n        \"street\": \"Kossuth utca 12/A.\"\r\n    },\r\n    \"isActive\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/school/xyz",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"school",
+								"xyz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete school by id not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('schools/school-not-found');\r",
+									"    pm.expect(jsonData.title).to.eql('Not found');\r",
+									"    pm.expect(jsonData.status).to.eql(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/school/xyz",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"school",
+								"xyz"
 							]
 						}
 					},
@@ -1504,6 +1895,179 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Class not found by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('classes/class-not-found');\r",
+									"    pm.expect(jsonData.title).to.eql('Not found');\r",
+									"    pm.expect(jsonData.status).to.eql(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/class/xyz",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"class",
+								"xyz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save class already exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('classes/class-already-taken');\r",
+									"    pm.expect(jsonData.title).to.eql('Already taken');\r",
+									"    pm.expect(jsonData.status).to.eql(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"PS2008B\",\r\n    \"yearOfGraduation\": 2008,\r\n    \"markOfClass\": \"B\",\r\n    \"formTeacher\": \"Tóth Bertalan\",\r\n    \"school\": {\r\n        \"id\": \"PS\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/class",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"class"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update class not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('classes/class-not-found');\r",
+									"    pm.expect(jsonData.title).to.eql('Not found');\r",
+									"    pm.expect(jsonData.status).to.eql(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"yearOfGraduation\": 2022,\r\n    \"markOfClass\": \"C\",\r\n    \"formTeacher\": \"dr. Nagy Miklós\",\r\n    \"school\": {\r\n        \"id\": \"DF\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/class/xyz",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"class",
+								"xyz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete class by id not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('classes/class-not-found');\r",
+									"    pm.expect(jsonData.title).to.eql('Not found');\r",
+									"    pm.expect(jsonData.status).to.eql(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/class/xyz",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"class",
+								"xyz"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1982,6 +2546,132 @@
 							"path": [
 								"member",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Member not found by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('members/member-not-found');\r",
+									"    pm.expect(jsonData.title).to.eql('Not found');\r",
+									"    pm.expect(jsonData.status).to.eql(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/member/-1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"member",
+								"-1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update member not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('members/member-not-found');\r",
+									"    pm.expect(jsonData.title).to.eql('Not found');\r",
+									"    pm.expect(jsonData.status).to.eql(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": {\r\n    \"prefixOfName\": null,\r\n    \"lastName\": \"Novák\",\r\n    \"firstName\": \"Katinka\",\r\n    \"suffixOfName\": null,\r\n    \"nickName\": null\r\n  },\r\n  \"class\": {\r\n    \"id\": \"JA2016B\"\r\n  },\r\n  \"placeOfBirth\": \"Szeged\",\r\n  \"dateOfBirth\": \"1993-01-06\",\r\n  \"address\": {\r\n    \"country\": {\r\n      \"code\": \"DE\"\r\n    },\r\n    \"zipCode\": \"91367\",\r\n    \"city\": \"Berlin\",\r\n    \"stateOrProvince\": null,\r\n    \"street\": null\r\n  },\r\n  \"email\": \"katinkan@example.com\",\r\n  \"phoneNumber\": \"+36307654321\",\r\n  \"status\": \"INACTIVE\",\r\n  \"type\": \"REGULAR\",\r\n  \"comment\": \"no comment\",\r\n  \"isAllowNewsletter\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/member/-1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"member",
+								"-1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete member by id not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Value check\", function () {\r",
+									"    pm.expect(jsonData.type).to.eql('members/member-not-found');\r",
+									"    pm.expect(jsonData.title).to.eql('Not found');\r",
+									"    pm.expect(jsonData.status).to.eql(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/member/-1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"member",
+								"-1"
 							]
 						}
 					},
