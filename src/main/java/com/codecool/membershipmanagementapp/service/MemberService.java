@@ -4,7 +4,10 @@
 
 package com.codecool.membershipmanagementapp.service;
 
+import com.codecool.membershipmanagementapp.model.Address;
 import com.codecool.membershipmanagementapp.model.member.Member;
+import com.codecool.membershipmanagementapp.model.member.PersonName;
+import com.codecool.membershipmanagementapp.model.school.SchoolClass;
 import com.codecool.membershipmanagementapp.repository.MemberRepository;
 import com.codecool.membershipmanagementapp.repository.command.CreateMemberCommand;
 import com.codecool.membershipmanagementapp.repository.command.UpdateMemberCommand;
@@ -58,23 +61,31 @@ public class MemberService {
     }
 
     public MemberDto update(Long id, UpdateMemberCommand command) {
-        Member memberToUpdate = memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Member with id %d not found.", id)));
 
-        Member memberInput = modelMapper.map(command, Member.class);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
 
-        memberToUpdate.setMembershipStatus(memberInput.getMembershipStatus());
-        memberToUpdate.setMembershipType(memberInput.getMembershipType());
-        memberToUpdate.setPersonName(memberInput.getPersonName());
-        memberToUpdate.setPlaceOfBirth(memberInput.getPlaceOfBirth());
-        memberToUpdate.setDateOfBirth(memberInput.getDateOfBirth());
-        memberToUpdate.setSchoolClass(memberInput.getSchoolClass());
-        memberToUpdate.setAddress(memberInput.getAddress());
-        memberToUpdate.setEmail(memberInput.getEmail());
-        memberToUpdate.setPhoneNumber(memberInput.getPhoneNumber());
-        memberToUpdate.setComment(memberInput.getComment());
-        memberToUpdate.setIsAllowNewsletter(memberInput.getIsAllowNewsletter());
+        Member memberToUpdate = entityManager.find(Member.class, id);
+        if (memberToUpdate == null) {
+            throw new IllegalArgumentException(String.format("Member with id %d not found.", id));
+        }
 
-        return modelMapper.map(memberRepository.save(memberToUpdate), MemberDto.class);
+        memberToUpdate.setMembershipStatus(command.getMembershipStatus());
+        memberToUpdate.setMembershipType(command.getMembershipType());
+        memberToUpdate.setPersonName(modelMapper.map(command.getPersonName(), PersonName.class));
+        memberToUpdate.setPlaceOfBirth(command.getPlaceOfBirth());
+        memberToUpdate.setDateOfBirth(command.getDateOfBirth());
+        memberToUpdate.setSchoolClass(modelMapper.map(command.getSchoolClass(), SchoolClass.class));
+        memberToUpdate.setAddress(modelMapper.map(command.getAddress(), Address.class));
+        memberToUpdate.setEmail(command.getEmail());
+        memberToUpdate.setPhoneNumber(command.getPhoneNumber());
+        memberToUpdate.setComment(command.getComment());
+        memberToUpdate.setIsAllowNewsletter(command.getIsAllowNewsletter());
+
+        entityManager.merge(memberToUpdate);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
+        return findById(id);
     }
 }
