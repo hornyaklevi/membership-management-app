@@ -4,6 +4,8 @@
 
 package com.codecool.membershipmanagementapp.service;
 
+import com.codecool.membershipmanagementapp.controller.exception.SchoolClassAlreadyTakenException;
+import com.codecool.membershipmanagementapp.controller.exception.SchoolClassByIdNotFoundException;
 import com.codecool.membershipmanagementapp.model.school.School;
 import com.codecool.membershipmanagementapp.model.school.SchoolClass;
 import com.codecool.membershipmanagementapp.repository.SchoolClassRepository;
@@ -37,15 +39,13 @@ public class SchoolClassService {
     public SchoolClassDto findById(String id) {
         return modelMapper.map(
                 schoolClassRepository.findById(id).orElseThrow(
-                        () -> new IllegalArgumentException(String.format("Class with id %s not found.", id))),
+                        () -> new SchoolClassByIdNotFoundException(id)),
                 SchoolClassDto.class);
     }
 
     public SchoolClassDto save(CreateSchoolClassCommand command) {
-        boolean schoolClassExists = schoolClassRepository.findById(command.getId()).isPresent();
-
-        if (schoolClassExists) {
-            throw new IllegalStateException(String.format("Class with id %s already taken.", command.getId()));
+        if (schoolClassRepository.existsById(command.getId())) {
+            throw new SchoolClassAlreadyTakenException(command.getId());
         }
 
         SchoolClass schoolClass = modelMapper.map(command, SchoolClass.class);
@@ -53,6 +53,10 @@ public class SchoolClassService {
     }
 
     public void deleteById(String id) {
+        if (!schoolClassRepository.existsById(id)) {
+            throw new SchoolClassByIdNotFoundException(id);
+        }
+
         schoolClassRepository.deleteById(id);
     }
 
@@ -63,7 +67,7 @@ public class SchoolClassService {
 
         SchoolClass schoolClassToUpdate = entityManager.find(SchoolClass.class, id);
         if (schoolClassToUpdate == null) {
-            throw new IllegalArgumentException(String.format("School class with id %s not found.", id));
+            throw new SchoolClassByIdNotFoundException(id);
         }
 
         schoolClassToUpdate.setYearOfGraduation(command.getYearOfGraduation());
