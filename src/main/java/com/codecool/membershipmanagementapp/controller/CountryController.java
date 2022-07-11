@@ -10,6 +10,7 @@ import com.codecool.membershipmanagementapp.repository.dto.CountryDto;
 import com.codecool.membershipmanagementapp.service.CountryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,8 @@ public record CountryController(CountryService countryService) {
     @GetMapping("/country/{code}")
     @Operation(summary = "Find country by ISO-3166 country code",
             description = "Find country by ISO-3166 country code.")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "404", description = "Country not found")
     public CountryDto findByCode(
             @Parameter(description = "Code of the country", example = "HU")
             @PathVariable("code") String code) {
@@ -41,6 +44,8 @@ public record CountryController(CountryService countryService) {
     @GetMapping("/country")
     @Operation(summary = "Find country by hungarian name",
             description = "Find country by hungarian name.")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "404", description = "Country not found")
     public CountryDto findCountryByNameHun(
             @Parameter(description = "Hungarian name of the country", example = "Spanyolország")
             @RequestParam("name_hu") String name) {
@@ -51,6 +56,8 @@ public record CountryController(CountryService countryService) {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a country",
             description = "Create a country.")
+    @ApiResponse(responseCode = "201", description = "Created")
+    @ApiResponse(responseCode = "400", description = "Invalid parameter or country id already taken")
     public CountryDto save(@Valid @RequestBody CreateCountryCommand command) {
         return countryService.save(command);
     }
@@ -59,6 +66,8 @@ public record CountryController(CountryService countryService) {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete country by code",
             description = "Delete country by code.")
+    @ApiResponse(responseCode = "204", description = "No Content")
+    @ApiResponse(responseCode = "404", description = "Country not found")
     public void deleteById(
             @Parameter(description = "Code of the country", example = "ZW")
             @PathVariable("code") String code) {
@@ -68,6 +77,9 @@ public record CountryController(CountryService countryService) {
     @PutMapping("/country/{code}")
     @Operation(summary = "Update country by code",
             description = "Update country by code.")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "400", description = "Invalid parameter")
+    @ApiResponse(responseCode = "404", description = "Country not found")
     public CountryDto update(
             @Parameter(description = "Code of the country", example = "AQ")
             @PathVariable("code") String code, @Valid @RequestBody UpdateCountryCommand command) {

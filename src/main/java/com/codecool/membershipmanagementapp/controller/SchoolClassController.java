@@ -10,6 +10,7 @@ import com.codecool.membershipmanagementapp.repository.dto.SchoolClassDto;
 import com.codecool.membershipmanagementapp.service.SchoolClassService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,8 @@ public record SchoolClassController(SchoolClassService schoolClassService) {
     @GetMapping("/class/{id}")
     @Operation(summary = "Find school class by id",
             description = "Find school class by id.")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "404", description = "Class not found")
     public SchoolClassDto findById(
             @Parameter(description = "Id of school class", example = "PS2008B")
             @PathVariable("id") String id) {
@@ -42,6 +45,8 @@ public record SchoolClassController(SchoolClassService schoolClassService) {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a class",
             description = "Create a class.")
+    @ApiResponse(responseCode = "201", description = "Created")
+    @ApiResponse(responseCode = "400", description = "Invalid parameter or class id already taken")
     public SchoolClassDto save(@Valid @RequestBody CreateSchoolClassCommand command) {
         return schoolClassService.save(command);
     }
@@ -50,6 +55,8 @@ public record SchoolClassController(SchoolClassService schoolClassService) {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete school class by id",
             description = "Delete school class by id.")
+    @ApiResponse(responseCode = "204", description = "No Content")
+    @ApiResponse(responseCode = "404", description = "Class not found")
     public void deleteById(
             @Parameter(description = "Id of school class", example = "SI1984D")
             @PathVariable("id") String id) {
@@ -59,6 +66,9 @@ public record SchoolClassController(SchoolClassService schoolClassService) {
     @PutMapping("/class/{id}")
     @Operation(summary = "Update school class by id",
             description = "Update school class by id.")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "400", description = "Invalid parameter")
+    @ApiResponse(responseCode = "404", description = "Class not found")
     public SchoolClassDto update(
             @Parameter(description = "Id of school class", example = "DF1982B")
             @PathVariable("id") String id, @Valid @RequestBody UpdateSchoolClassCommand command) {
